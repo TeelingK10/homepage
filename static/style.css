@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('bg.jpg');
+
+    background-size: cover;
+    background-position: center;
+
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+}
+
+.overlay h1 {
+    font-size: 80px;
+    letter-spacing: 8px;
+}
+
+.overlay p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.dark-bg {
+    background: #111;
+    min-height: 100vh;
+}
+
+.login-box {
+    width: 400px;
+
+    background: #1e1e1e;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
