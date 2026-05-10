@@ -8,6 +8,10 @@ body{
     font-family:'Segoe UI',sans-serif;
 }
 
+/* ========================================
+   LOGIN
+======================================== */
+
 .dark-bg{
 
     min-height:100vh;
@@ -46,6 +50,8 @@ body{
     left:50%;
 
     transform:translate(-50%,-50%);
+
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
 
 .main-logo{
@@ -57,6 +63,8 @@ body{
     margin-bottom:30px;
 
     letter-spacing:8px;
+
+    font-weight:bold;
 }
 
 .sub-title{
@@ -68,7 +76,46 @@ body{
     margin-bottom:10px;
 
     color:#f6d7b0;
+
+    font-size:14px;
 }
+
+.form-control{
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    background:rgba(255,255,255,0.85);
+}
+
+.btn-primary{
+
+    background:#b07d52;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:14px;
+
+    font-size:18px;
+
+    transition:0.3s;
+}
+
+.btn-primary:hover{
+
+    background:#8a5d39;
+
+    transform:translateY(-2px);
+}
+
+/* ========================================
+   DASHBOARD
+======================================== */
 
 .dashboard-body{
 
@@ -100,15 +147,36 @@ body{
     height:100vh;
 }
 
+.sidebar-logo{
+
+    margin-bottom:40px;
+
+    letter-spacing:5px;
+}
+
 .sidebar a{
 
     text-decoration:none;
 
     color:white;
 
-    padding:14px;
+    padding:14px 18px;
 
     border-radius:14px;
+
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+
+    background:rgba(255,255,255,0.1);
+}
+
+.logout-btn{
+
+    margin-top:auto;
+
+    background:#b07d52;
 }
 
 .main-content{
@@ -122,7 +190,16 @@ body{
 
 .welcome-card{
 
-    background:#b07d52;
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.35),
+            rgba(0,0,0,0.35)
+        ),
+        url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1974&auto=format&fit=crop');
+
+    background-size:cover;
+
+    background-position:center;
 
     border-radius:35px;
 
@@ -131,6 +208,20 @@ body{
     color:white;
 
     margin-bottom:40px;
+}
+
+.welcome-card h1{
+
+    font-size:56px;
+
+    margin-bottom:15px;
+}
+
+.welcome-subtitle{
+
+    letter-spacing:4px;
+
+    color:#f6d7b0;
 }
 
 .dashboard-grid{
@@ -152,6 +243,15 @@ body{
     padding:35px;
 
     min-height:220px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
 }
 
 .dashboard-link{
@@ -161,7 +261,10 @@ body{
     color:inherit;
 }
 
+.dashboard-link:hover{
 
+    color:inherit;
+}
 
 /* ========================================
    GYM SYSTEM
