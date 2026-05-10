@@ -13,103 +13,63 @@ body{
 ======================================== */
 
 .dark-bg{
-
     min-height:100vh;
-
     background:
-        linear-gradient(
-            rgba(0,0,0,0.45),
-            rgba(0,0,0,0.45)
-        ),
+        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
         url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1974&auto=format&fit=crop');
-
     background-size:cover;
-
     background-position:center;
-
     position:relative;
 }
 
 .login-box{
-
     width:420px;
-
     background:rgba(255,255,255,0.15);
-
     backdrop-filter:blur(15px);
-
     padding:50px;
-
     border-radius:30px;
-
     color:white;
-
     position:absolute;
-
     top:50%;
     left:50%;
-
     transform:translate(-50%,-50%);
-
     box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
 
 .main-logo{
-
     font-size:60px;
-
     text-align:center;
-
     margin-bottom:30px;
-
     letter-spacing:8px;
-
     font-weight:bold;
 }
 
 .sub-title{
-
     text-align:center;
-
     letter-spacing:4px;
-
     margin-bottom:10px;
-
     color:#f6d7b0;
-
     font-size:14px;
 }
 
 .form-control{
-
     border:none;
-
     border-radius:15px;
-
     padding:15px;
-
     background:rgba(255,255,255,0.85);
 }
 
 .btn-primary{
-
     background:#b07d52;
-
     border:none;
-
     border-radius:15px;
-
     padding:14px;
-
     font-size:18px;
-
     transition:0.3s;
 }
 
 .btn-primary:hover{
-
     background:#8a5d39;
-
     transform:translateY(-2px);
 }
 
@@ -118,464 +78,619 @@ body{
 ======================================== */
 
 .dashboard-body{
-
     display:flex;
-
     background:#f5efe6;
-
     min-height:100vh;
 }
 
 .sidebar{
-
     width:260px;
-
     background:#3e2c23;
-
     color:white;
-
     padding:40px 25px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:18px;
-
     position:fixed;
-
     height:100vh;
 }
 
 .sidebar-logo{
-
     margin-bottom:40px;
-
     letter-spacing:5px;
 }
 
 .sidebar a{
-
     text-decoration:none;
-
     color:white;
-
     padding:14px 18px;
-
     border-radius:14px;
-
     transition:0.3s;
 }
 
 .sidebar a:hover{
-
     background:rgba(255,255,255,0.1);
 }
 
 .logout-btn{
-
     margin-top:auto;
-
     background:#b07d52;
+    text-align:center;
 }
 
 .main-content{
-
     margin-left:260px;
-
     width:100%;
-
     padding:50px;
 }
 
 .welcome-card{
-
     background:
-        linear-gradient(
-            rgba(0,0,0,0.35),
-            rgba(0,0,0,0.35)
-        ),
+        linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),
         url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1974&auto=format&fit=crop');
-
     background-size:cover;
-
     background-position:center;
-
     border-radius:35px;
-
     padding:70px;
-
     color:white;
-
     margin-bottom:40px;
 }
 
 .welcome-card h1{
-
     font-size:56px;
-
     margin-bottom:15px;
 }
 
 .welcome-subtitle{
-
     letter-spacing:4px;
-
     color:#f6d7b0;
 }
 
 .dashboard-grid{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(260px,1fr));
-
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:25px;
 }
 
 .dashboard-card{
-
     background:white;
-
     border-radius:30px;
-
     padding:35px;
-
     min-height:220px;
-
     box-shadow:0 10px 25px rgba(0,0,0,0.08);
-
     transition:0.3s;
 }
 
 .dashboard-card:hover{
-
     transform:translateY(-8px);
 }
 
 .dashboard-link{
-
     text-decoration:none;
-
     color:inherit;
 }
 
 .dashboard-link:hover{
-
     color:inherit;
 }
 
 /* ========================================
-   GYM SYSTEM
+   GYM / TRAINING SYSTEM
 ======================================== */
 
 .gym-body{
-
-    margin:0;
-
     display:flex;
-
     min-height:100vh;
-
     background:#0f0f0f;
-
     color:white;
-
     font-family:'Segoe UI',sans-serif;
 }
 
 .gym-sidebar{
-
     width:260px;
-
     background:#181818;
-
     padding:40px 25px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:20px;
-
     border-right:1px solid #2c2c2c;
+    position:fixed;
+    height:100vh;
 }
 
 .gym-sidebar h2{
-
     margin-bottom:30px;
-
     color:#f97316;
-
     letter-spacing:3px;
 }
 
 .gym-sidebar a{
-
     text-decoration:none;
-
     color:white;
-
     padding:14px 18px;
-
     border-radius:14px;
-
     transition:0.3s;
 }
 
 .gym-sidebar a:hover{
-
     background:#f97316;
 }
 
 .gym-logout{
-
     margin-top:auto;
-
     background:#dc2626;
+    text-align:center;
 }
 
 .gym-main{
-
     flex:1;
-
+    margin-left:260px;
     padding:40px;
 }
 
 .gym-hero{
-
     background:
-        linear-gradient(
-            rgba(0,0,0,0.5),
-            rgba(0,0,0,0.5)
-        ),
+        linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
         url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1974&auto=format&fit=crop');
-
     background-size:cover;
-
     background-position:center;
-
     padding:70px;
-
     border-radius:35px;
-
     margin-bottom:35px;
 }
 
 .gym-hero p{
-
     color:#f97316;
-
     letter-spacing:4px;
 }
 
 .gym-hero h1{
-
     font-size:64px;
-
     margin:10px 0;
 }
 
 .gym-hero span{
-
     color:#d1d5db;
 }
 
 .stats-grid{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
-
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:25px;
-
     margin-bottom:35px;
 }
 
 .stat-card{
-
     background:#181818;
-
     padding:30px;
-
     border-radius:25px;
-
     border:1px solid #2c2c2c;
 }
 
 .stat-card h3{
-
     font-size:42px;
-
     color:#f97316;
 }
 
 .workout-section{
-
     background:#181818;
-
     padding:30px;
-
     border-radius:30px;
-
     border:1px solid #2c2c2c;
 }
 
 .section-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin-bottom:25px;
 }
 
 .section-header button{
-
     background:#f97316;
-
     border:none;
-
     color:white;
-
     padding:12px 20px;
-
     border-radius:14px;
-
     cursor:pointer;
 }
 
 .workout-grid{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(280px,1fr));
-
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:20px;
 }
 
 .workout-card{
-
     background:#0f0f0f;
-
     border-radius:22px;
-
     padding:25px;
-
     border:1px solid #2c2c2c;
-
     transition:0.3s;
 }
 
 .workout-card:hover{
-
     transform:translateY(-5px);
-
     border-color:#f97316;
 }
 
 .workout-card h3{
-
     margin-bottom:20px;
-
     color:#f97316;
 }
 
 .workout-info{
-
     display:flex;
-
     justify-content:space-between;
 }
 
 .workout-info span{
-
     color:#9ca3af;
-
     font-size:14px;
 }
 
 .workout-info h4{
-
     margin-top:6px;
-
     font-size:24px;
 }
 
 .add-workout-box{
-
     background:#181818;
-
     padding:30px;
-
     border-radius:30px;
-
     margin-bottom:35px;
 }
 
 .add-workout-box h2{
-
     margin-bottom:20px;
-
     color:#f97316;
 }
 
 .add-workout-box form{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(180px,1fr));
-
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:15px;
 }
 
 .add-workout-box input{
-
     padding:15px;
-
     border:none;
-
     border-radius:14px;
-
     background:#0f0f0f;
-
     color:white;
 }
 
 .add-workout-box button{
-
     background:#f97316;
-
     border:none;
-
     border-radius:14px;
-
     color:white;
-
     font-size:18px;
-
     cursor:pointer;
 }
 
 .delete-btn{
-
     display:inline-block;
-
     margin-top:20px;
-
     text-decoration:none;
-
     background:#dc2626;
-
     color:white;
-
     padding:10px 16px;
-
     border-radius:12px;
+}
+
+/* ========================================
+   MONEY SYSTEM
+======================================== */
+
+.money-body{
+    display:flex;
+    min-height:100vh;
+    background:#0a0f1e;
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.money-sidebar{
+    width:260px;
+    background:#0d1427;
+    padding:40px 25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border-right:1px solid #1e2d50;
+    position:fixed;
+    height:100vh;
+}
+
+.money-sidebar h2{
+    margin-bottom:30px;
+    color:#38bdf8;
+    letter-spacing:3px;
+}
+
+.money-sidebar a{
+    text-decoration:none;
+    color:white;
+    padding:14px 18px;
+    border-radius:14px;
+    transition:0.3s;
+}
+
+.money-sidebar a:hover{
+    background:#38bdf8;
+    color:#0a0f1e;
+}
+
+.money-logout{
+    margin-top:auto;
+    background:#dc2626;
+    text-align:center;
+}
+
+.money-main{
+    flex:1;
+    margin-left:260px;
+    padding:40px;
+}
+
+.money-hero{
+    background:linear-gradient(135deg,#0d1427 0%,#1e3a5f 100%);
+    border:1px solid #1e2d50;
+    padding:60px;
+    border-radius:35px;
+    margin-bottom:35px;
+}
+
+.money-hero p{
+    color:#38bdf8;
+    letter-spacing:4px;
+    margin-bottom:10px;
+}
+
+.money-hero h1{
+    font-size:56px;
+    margin-bottom:10px;
+}
+
+.money-hero .total-amount{
+    font-size:42px;
+    color:#38bdf8;
+    font-weight:bold;
+}
+
+.add-expense-box{
+    background:#0d1427;
+    padding:30px;
+    border-radius:30px;
+    margin-bottom:35px;
+    border:1px solid #1e2d50;
+}
+
+.add-expense-box h2{
+    margin-bottom:20px;
+    color:#38bdf8;
+}
+
+.add-expense-box form{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.add-expense-box input,
+.add-expense-box select{
+    padding:15px;
+    border:1px solid #1e2d50;
+    border-radius:14px;
+    background:#0a0f1e;
+    color:white;
+}
+
+.add-expense-box button{
+    background:#38bdf8;
+    border:none;
+    border-radius:14px;
+    color:#0a0f1e;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    padding:15px;
+}
+
+.expense-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.expense-card{
+    background:#0d1427;
+    border-radius:22px;
+    padding:25px;
+    border:1px solid #1e2d50;
+    transition:0.3s;
+}
+
+.expense-card:hover{
+    transform:translateY(-5px);
+    border-color:#38bdf8;
+}
+
+.expense-card .category-badge{
+    display:inline-block;
+    background:#1e3a5f;
+    color:#38bdf8;
+    padding:5px 14px;
+    border-radius:20px;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.expense-card h3{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.expense-card .amount{
+    font-size:32px;
+    font-weight:bold;
+    color:#38bdf8;
+}
+
+.expense-card .date{
+    color:#64748b;
+    font-size:13px;
+    margin-top:6px;
+}
+
+/* ========================================
+   SCHEDULE SYSTEM
+======================================== */
+
+.schedule-body{
+    display:flex;
+    min-height:100vh;
+    background:#0f1a0f;
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.schedule-sidebar{
+    width:260px;
+    background:#111d11;
+    padding:40px 25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border-right:1px solid #1e3a1e;
+    position:fixed;
+    height:100vh;
+}
+
+.schedule-sidebar h2{
+    margin-bottom:30px;
+    color:#4ade80;
+    letter-spacing:3px;
+}
+
+.schedule-sidebar a{
+    text-decoration:none;
+    color:white;
+    padding:14px 18px;
+    border-radius:14px;
+    transition:0.3s;
+}
+
+.schedule-sidebar a:hover{
+    background:#4ade80;
+    color:#0f1a0f;
+}
+
+.schedule-logout{
+    margin-top:auto;
+    background:#dc2626;
+    text-align:center;
+}
+
+.schedule-main{
+    flex:1;
+    margin-left:260px;
+    padding:40px;
+}
+
+.schedule-hero{
+    background:linear-gradient(135deg,#111d11 0%,#1a3a1a 100%);
+    border:1px solid #1e3a1e;
+    padding:60px;
+    border-radius:35px;
+    margin-bottom:35px;
+}
+
+.schedule-hero p{
+    color:#4ade80;
+    letter-spacing:4px;
+    margin-bottom:10px;
+}
+
+.schedule-hero h1{
+    font-size:56px;
+    margin-bottom:10px;
+}
+
+.add-event-box{
+    background:#111d11;
+    padding:30px;
+    border-radius:30px;
+    margin-bottom:35px;
+    border:1px solid #1e3a1e;
+}
+
+.add-event-box h2{
+    margin-bottom:20px;
+    color:#4ade80;
+}
+
+.add-event-box form{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.add-event-box input{
+    padding:15px;
+    border:1px solid #1e3a1e;
+    border-radius:14px;
+    background:#0f1a0f;
+    color:white;
+}
+
+.add-event-box button{
+    background:#4ade80;
+    border:none;
+    border-radius:14px;
+    color:#0f1a0f;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    padding:15px;
+}
+
+.event-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.event-card{
+    background:#111d11;
+    border-radius:22px;
+    padding:25px 30px;
+    border:1px solid #1e3a1e;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.3s;
+}
+
+.event-card:hover{
+    transform:translateY(-3px);
+    border-color:#4ade80;
+}
+
+.event-left h3{
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.event-left .event-meta{
+    color:#4ade80;
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+.event-left .event-note{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:4px;
 }

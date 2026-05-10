@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from flask import (
     Flask,
@@ -20,76 +21,100 @@ from flask_login import (
 
 from flask_sqlalchemy import SQLAlchemy
 
-from werkzeug.security import (
-    generate_password_hash,
-    check_password_hash
-)
-
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = os.environ.get(
-    'SECRET_KEY'
-)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'sqlite:///training.db'
-)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///training.db'
 
 db = SQLAlchemy(app)
 
-USERNAME = os.environ.get(
-    'APP_USERNAME'
-)
-
-PASSWORD = os.environ.get(
-    'APP_PASSWORD'
-)
-
-USER_DATA = {
-    USERNAME: generate_password_hash(PASSWORD)
-}
+USERNAME = os.environ.get('APP_USERNAME', 'admin')
+PASSWORD = os.environ.get('APP_PASSWORD', 'password')
 
 login_manager = LoginManager()
-
 login_manager.init_app(app)
+login_manager.login_view = 'index'
+
 
 class User(UserMixin):
-
     def __init__(self, username):
-
         self.id = username
+
 
 @login_manager.user_loader
 def load_user(user_id):
+    if user_id == USERNAME:
+        return User(user_id)
+    return None
 
-    return User(user_id)
 
 # =========================
-# Workout Model
+# Models
 # =========================
 
 class Workout(db.Model):
+    id       = db.Column(db.Integer, primary_key=True)
+    exercise = db.Column(db.String(100))
+    weight   = db.Column(db.Float)
+    reps     = db.Column(db.Integer)
+    sets     = db.Column(db.Integer)
+    date     = db.Column(db.String(20))
 
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
 
-    exercise = db.Column(
-        db.String(100)
-    )
+class Menu(db.Model):
+    """曜日ごとのトレーニングメニュー (day: 0=月〜6=日)"""
+    id           = db.Column(db.Integer, primary_key=True)
+    day          = db.Column(db.Integer)
+    order        = db.Column(db.Integer)
+    exercise     = db.Column(db.String(100))
+    target_sets  = db.Column(db.Integer)
+    target_reps  = db.Column(db.Integer)
 
-    weight = db.Column(
-        db.String(50)
-    )
 
-    reps = db.Column(
-        db.String(50)
-    )
+class Expense(db.Model):
+    id          = db.Column(db.Integer, primary_key=True)
+    category    = db.Column(db.String(100))
+    description = db.Column(db.String(200))
+    amount      = db.Column(db.Integer)
+    date        = db.Column(db.String(20))
 
-    sets = db.Column(
-        db.String(50)
+
+class Event(db.Model):
+    id    = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    date  = db.Column(db.String(20))
+    time  = db.Column(db.String(10))
+    note  = db.Column(db.String(300))
+
+
+# =========================
+# Helpers
+# =========================
+
+DAY_NAMES    = ['月', '火', '水', '木', '金', '土', '日']
+DAY_NAMES_EN = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+
+def get_pr_map():
+    """種目名 → 最高重量(float)"""
+    pr = {}
+    for w in Workout.query.all():
+        if w.weight is not None:
+            if w.exercise not in pr or w.weight > pr[w.exercise]:
+                pr[w.exercise] = w.weight
+    return pr
+
+
+def get_today_menu():
+    today = datetime.now().weekday()  # 月=0, 日=6
+    items = (
+        Menu.query
+        .filter_by(day=today)
+        .order_by(Menu.order)
+        .all()
     )
+    return items, today
+
 
 # =========================
 # Login
@@ -97,33 +122,15 @@ class Workout(db.Model):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     if request.method == 'POST':
-
         username = request.form['username']
-
         password = request.form['password']
-
-        if username in USER_DATA:
-
-            hashed_password = USER_DATA[username]
-
-            if check_password_hash(
-                hashed_password,
-                password
-            ):
-
-                user = User(username)
-
-                login_user(user)
-
-                return redirect(
-                    url_for('dashboard')
-                )
-
+        if username == USERNAME and password == PASSWORD:
+            login_user(User(username))
+            return redirect(url_for('dashboard'))
         flash('ログイン失敗')
-
     return render_template('index.html')
+
 
 # =========================
 # Dashboard
@@ -132,11 +139,8 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    return render_template('dashboard.html', user=current_user)
 
-    return render_template(
-        'dashboard.html',
-        user=current_user
-    )
 
 # =========================
 # Training
@@ -145,64 +149,82 @@ def dashboard():
 @app.route('/training')
 @login_required
 def training():
-
-    workouts = Workout.query.order_by(
-        Workout.id.desc()
-    ).all()
-
+    workouts      = Workout.query.order_by(Workout.id.desc()).all()
+    pr_map        = get_pr_map()
+    today_menu, today_day = get_today_menu()
+    menus_by_day  = [
+        Menu.query.filter_by(day=d).order_by(Menu.order).all()
+        for d in range(7)
+    ]
     return render_template(
         'training.html',
-        workouts=workouts
+        workouts=workouts,
+        pr_map=pr_map,
+        today_menu=today_menu,
+        today_day=today_day,
+        day_names=DAY_NAMES,
+        day_names_en=DAY_NAMES_EN,
+        menus_by_day=menus_by_day,
+        now=datetime.now().strftime('%Y-%m-%d')
     )
 
-# =========================
-# Add Workout
-# =========================
 
 @app.route('/add_workout', methods=['POST'])
 @login_required
 def add_workout():
-
-    exercise = request.form['exercise']
-
-    weight = request.form['weight']
-
-    reps = request.form['reps']
-
-    sets = request.form['sets']
-
-    workout = Workout(
-        exercise=exercise,
-        weight=weight,
-        reps=reps,
-        sets=sets
-    )
-
-    db.session.add(workout)
-
+    db.session.add(Workout(
+        exercise=request.form['exercise'],
+        weight=float(request.form['weight']),
+        reps=int(request.form['reps']),
+        sets=int(request.form['sets']),
+        date=request.form.get('date', datetime.now().strftime('%Y-%m-%d'))
+    ))
     db.session.commit()
+    return redirect(url_for('training'))
 
-    return redirect(
-        url_for('training')
-    )
-
-# =========================
-# Delete Workout
-# =========================
 
 @app.route('/delete_workout/<int:id>')
 @login_required
 def delete_workout(id):
+    w = db.session.get(Workout, id)
+    if w:
+        db.session.delete(w)
+        db.session.commit()
+    return redirect(url_for('training'))
 
-    workout = Workout.query.get(id)
 
-    db.session.delete(workout)
+# =========================
+# Menu
+# =========================
 
-    db.session.commit()
-
-    return redirect(
-        url_for('training')
+@app.route('/add_menu', methods=['POST'])
+@login_required
+def add_menu():
+    day = int(request.form['day'])
+    max_order = (
+        db.session.query(db.func.max(Menu.order))
+        .filter_by(day=day).scalar() or 0
     )
+    db.session.add(Menu(
+        day=day,
+        order=max_order + 1,
+        exercise=request.form['exercise'],
+        target_sets=int(request.form['target_sets']),
+        target_reps=int(request.form['target_reps'])
+    ))
+    db.session.commit()
+    return redirect(url_for('training') + '#menu-section')
+
+
+@app.route('/delete_menu/<int:id>')
+@login_required
+def delete_menu(id):
+    m = db.session.get(Menu, id)
+    if m:
+        db.session.delete(m)
+        db.session.commit()
+    return redirect(url_for('training') + '#menu-section')
+
 
 # =========================
 # Money
@@ -211,10 +233,33 @@ def delete_workout(id):
 @app.route('/money')
 @login_required
 def money():
+    expenses = Expense.query.order_by(Expense.id.desc()).all()
+    total    = sum(e.amount for e in expenses)
+    return render_template('money.html', expenses=expenses, total=total)
 
-    return render_template(
-        'money.html'
-    )
+
+@app.route('/add_expense', methods=['POST'])
+@login_required
+def add_expense():
+    db.session.add(Expense(
+        category=request.form['category'],
+        description=request.form['description'],
+        amount=int(request.form['amount']),
+        date=request.form['date']
+    ))
+    db.session.commit()
+    return redirect(url_for('money'))
+
+
+@app.route('/delete_expense/<int:id>')
+@login_required
+def delete_expense(id):
+    e = db.session.get(Expense, id)
+    if e:
+        db.session.delete(e)
+        db.session.commit()
+    return redirect(url_for('money'))
+
 
 # =========================
 # Schedule
@@ -223,10 +268,32 @@ def money():
 @app.route('/schedule')
 @login_required
 def schedule():
+    events = Event.query.order_by(Event.date, Event.time).all()
+    return render_template('schedule.html', events=events)
 
-    return render_template(
-        'schedule.html'
-    )
+
+@app.route('/add_event', methods=['POST'])
+@login_required
+def add_event():
+    db.session.add(Event(
+        title=request.form['title'],
+        date=request.form['date'],
+        time=request.form['time'],
+        note=request.form.get('note', '')
+    ))
+    db.session.commit()
+    return redirect(url_for('schedule'))
+
+
+@app.route('/delete_event/<int:id>')
+@login_required
+def delete_event(id):
+    e = db.session.get(Event, id)
+    if e:
+        db.session.delete(e)
+        db.session.commit()
+    return redirect(url_for('schedule'))
+
 
 # =========================
 # Logout
@@ -235,21 +302,16 @@ def schedule():
 @app.route('/logout')
 @login_required
 def logout():
-
     logout_user()
+    return redirect(url_for('index'))
 
-    return redirect(
-        url_for('index')
-    )
 
 # =========================
-# Run
+# DB Init + Run
 # =========================
+
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
-
-    with app.app_context():
-
-        db.create_all()
-
     app.run(debug=True)

@@ -1,116 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
-
     <title>Dashboard</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body class="dashboard-body">
 
 <div class="sidebar">
-
-    <h2 class="sidebar-logo">
-        KAITO
-    </h2>
-
-    <a href="/dashboard">
-        Home
-    </a>
-
-    <a href="/training">
-        Training
-    </a>
-
-    <a href="/money">
-        Money
-    </a>
-
-    <a href="/schedule">
-        Schedule
-    </a>
-
-    <a href="/logout" class="logout-btn">
-        Logout
-    </a>
-
+    <h2 class="sidebar-logo">KAITO</h2>
+    <a href="/dashboard">🏠 Home</a>
+    <a href="/training">💪 Training</a>
+    <a href="/money">💰 Money</a>
+    <a href="/schedule">📅 Schedule</a>
+    <a href="/logout" class="logout-btn">Logout</a>
 </div>
 
 <div class="main-content">
 
     <div class="welcome-card">
-
-        <p class="welcome-subtitle">
-            PERSONAL DASHBOARD
-        </p>
-
-        <h1>
-            Welcome,
-            {{ user.id }}
-        </h1>
-
-        <p>
-            自分専用ライフ管理システム
-        </p>
-
+        <p class="welcome-subtitle">PERSONAL DASHBOARD</p>
+        <h1>Welcome, {{ user.id }}</h1>
+        <p>自分専用ライフ管理システム</p>
     </div>
 
     <div class="dashboard-grid">
 
         <a href="/training" class="dashboard-link">
-
             <div class="dashboard-card">
-
-                <h3>
-                    Training
-                </h3>
-
-                <p>
-                    筋トレ管理
-                </p>
-
+                <h3>💪 Training</h3>
+                <p style="margin-top:12px;color:#888;">筋トレ記録・管理</p>
             </div>
-
         </a>
 
         <a href="/money" class="dashboard-link">
-
             <div class="dashboard-card">
-
-                <h3>
-                    Money
-                </h3>
-
-                <p>
-                    支出管理
-                </p>
-
+                <h3>💰 Money</h3>
+                <p style="margin-top:12px;color:#888;">支出・収支管理</p>
             </div>
-
         </a>
 
         <a href="/schedule" class="dashboard-link">
-
             <div class="dashboard-card">
-
-                <h3>
-                    Schedule
-                </h3>
-
-                <p>
-                    スケジュール管理
-                </p>
-
+                <h3>📅 Schedule</h3>
+                <p style="margin-top:12px;color:#888;">スケジュール管理</p>
             </div>
-
         </a>
 
     </div>

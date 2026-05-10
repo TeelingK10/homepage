@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="schedule-body">
+
+<div class="schedule-sidebar">
+    <h2>SCHEDULE</h2>
+    <a href="/dashboard">🏠 Dashboard</a>
+    <a href="/training">💪 Training</a>
+    <a href="/money">💰 Money</a>
+    <a href="/schedule">📅 Schedule</a>
+    <a href="/logout" class="schedule-logout">Logout</a>
+</div>
+
+<div class="schedule-main">
+
+    <div class="schedule-hero">
+        <p>TIME MANAGEMENT</p>
+        <h1>Schedule Dashboard</h1>
+        <span style="color:#86efac;">Plan Your Days</span>
+    </div>
+
+    <div class="add-event-box">
+        <h2>Add Event</h2>
+        <form method="POST" action="/add_event">
+            <input type="text" name="title" placeholder="Event Title" required>
+            <input type="date" name="date" required>
+            <input type="time" name="time">
+            <input type="text" name="note" placeholder="Note (optional)">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="event-list">
+        {% for event in events %}
+        <div class="event-card">
+            <div class="event-left">
+                <h3>{{ event.title }}</h3>
+                <div class="event-meta">📅 {{ event.date }}{% if event.time %} &nbsp; 🕐 {{ event.time }}{% endif %}</div>
+                {% if event.note %}
+                <div class="event-note">{{ event.note }}</div>
+                {% endif %}
+            </div>
+            <a href="/delete_event/{{ event.id }}" class="delete-btn">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

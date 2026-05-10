@@ -1,189 +1,383 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* ---- TODAY MENU ---- */
+        .today-menu-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a1500 100%);
+            border: 1px solid #f97316;
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 35px;
+        }
+        .today-menu-section h2 {
+            color: #f97316;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+        .today-day-label {
+            color: #9ca3af;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+        .today-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .today-menu-item {
+            background: #0f0f0f;
+            border: 1px solid #2c2c2c;
+            border-radius: 18px;
+            padding: 20px;
+            position: relative;
+        }
+        .today-menu-item .ex-name {
+            font-size: 17px;
+            font-weight: bold;
+            color: #f97316;
+            margin-bottom: 10px;
+        }
+        .today-menu-item .ex-target {
+            color: #d1d5db;
+            font-size: 14px;
+        }
+        .today-menu-item .pr-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #7c2d12;
+            color: #fb923c;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+        .rest-day {
+            color: #6b7280;
+            font-style: italic;
+        }
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        /* ---- MENU SETTINGS ---- */
+        .menu-section {
+            background: #181818;
+            border: 1px solid #2c2c2c;
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 35px;
+        }
+        .menu-section h2 {
+            color: #f97316;
+            margin-bottom: 24px;
+            letter-spacing: 3px;
+        }
+        .day-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .day-tab {
+            padding: 8px 18px;
+            border-radius: 12px;
+            border: 1px solid #2c2c2c;
+            background: #0f0f0f;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .day-tab.active,
+        .day-tab:hover {
+            background: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+        .day-panel {
+            display: none;
+        }
+        .day-panel.active {
+            display: block;
+        }
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .menu-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0f0f0f;
+            border: 1px solid #2c2c2c;
+            border-radius: 14px;
+            padding: 14px 20px;
+        }
+        .menu-row .menu-ex {
+            font-size: 16px;
+            color: #f97316;
+            min-width: 160px;
+        }
+        .menu-row .menu-meta {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        .menu-row a {
+            background: #dc2626;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .add-menu-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: center;
+        }
+        .add-menu-form input {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: #0f0f0f;
+            color: white;
+            border: 1px solid #2c2c2c;
+        }
+        .add-menu-form button {
+            background: #f97316;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            white-space: nowrap;
+        }
 
-    <title>
-        Training System
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
-
+        /* ---- PR TABLE ---- */
+        .pr-section {
+            background: #181818;
+            border: 1px solid #2c2c2c;
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 35px;
+        }
+        .pr-section h2 {
+            color: #f97316;
+            margin-bottom: 24px;
+            letter-spacing: 3px;
+        }
+        .pr-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .pr-table th {
+            text-align: left;
+            color: #9ca3af;
+            font-size: 13px;
+            letter-spacing: 2px;
+            padding: 10px 16px;
+            border-bottom: 1px solid #2c2c2c;
+        }
+        .pr-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 16px;
+        }
+        .pr-table td.pr-weight {
+            color: #f97316;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .pr-table tr:hover td {
+            background: #0f0f0f;
+        }
+        .no-pr {
+            color: #6b7280;
+            font-style: italic;
+        }
+    </style>
 </head>
-
 <body class="gym-body">
 
 <div class="gym-sidebar">
-
-    <h2>
-        TRAINING
-    </h2>
-
-    <a href="/dashboard">
-        Dashboard
-    </a>
-
-    <a href="/training">
-        Workout
-    </a>
-
-    <a href="/money">
-        Money
-    </a>
-
-    <a href="/schedule">
-        Schedule
-    </a>
-
-    <a href="/logout" class="gym-logout">
-        Logout
-    </a>
-
+    <h2>TRAINING</h2>
+    <a href="/dashboard">🏠 Dashboard</a>
+    <a href="/training">💪 Workout</a>
+    <a href="/money">💰 Money</a>
+    <a href="/schedule">📅 Schedule</a>
+    <a href="/logout" class="gym-logout">Logout</a>
 </div>
 
 <div class="gym-main">
 
+    <!-- Hero -->
     <div class="gym-hero">
-
-        <p>
-            NO EXCUSES
-        </p>
-
-        <h1>
-            Gym Dashboard
-        </h1>
-
-        <span>
-            Track Your Progress
-        </span>
-
+        <p>NO EXCUSES</p>
+        <h1>Gym Dashboard</h1>
+        <span>Track Your Progress</span>
     </div>
 
-    <!-- Add Workout -->
-
-    <div class="add-workout-box">
-
-        <h2>
-            Add Workout
-        </h2>
-
-        <form
-            method="POST"
-            action="/add_workout"
-        >
-
-            <input
-                type="text"
-                name="exercise"
-                placeholder="Exercise"
-                required
-            >
-
-            <input
-                type="text"
-                name="weight"
-                placeholder="Weight"
-                required
-            >
-
-            <input
-                type="text"
-                name="reps"
-                placeholder="Reps"
-                required
-            >
-
-            <input
-                type="text"
-                name="sets"
-                placeholder="Sets"
-                required
-            >
-
-            <button>
-                Add
-            </button>
-
-        </form>
-
-    </div>
-
-    <!-- Workout List -->
-
-    <div class="workout-grid">
-
-        {% for workout in workouts %}
-
-        <div class="workout-card">
-
-            <h3>
-                {{ workout.exercise }}
-            </h3>
-
-            <div class="workout-info">
-
-                <div>
-
-                    <span>
-                        Weight
-                    </span>
-
-                    <h4>
-                        {{ workout.weight }}
-                    </h4>
-
-                </div>
-
-                <div>
-
-                    <span>
-                        Reps
-                    </span>
-
-                    <h4>
-                        {{ workout.reps }}
-                    </h4>
-
-                </div>
-
-                <div>
-
-                    <span>
-                        Sets
-                    </span>
-
-                    <h4>
-                        {{ workout.sets }}
-                    </h4>
-
-                </div>
-
-            </div>
-
-            <a
-                href="/delete_workout/{{ workout.id }}"
-                class="delete-btn"
-            >
-                Delete
-            </a>
-
+    <!-- ========== TODAY'S MENU ========== -->
+    <div class="today-menu-section">
+        <h2>📋 TODAY'S MENU</h2>
+        <div class="today-day-label">
+            {{ day_names[today_day] }}曜日 &nbsp;|&nbsp; {{ day_names_en[today_day] }}
         </div>
 
-        {% endfor %}
+        {% if today_menu %}
+        <div class="today-menu-grid">
+            {% for item in today_menu %}
+            <div class="today-menu-item">
+                <div class="ex-name">{{ item.exercise }}</div>
+                <div class="ex-target">
+                    {{ item.target_sets }} sets × {{ item.target_reps }} reps
+                </div>
+                {% if item.exercise in pr_map %}
+                <div class="pr-badge">PR {{ pr_map[item.exercise] }}kg</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="rest-day">🛌 Rest Day — メニューが設定されていません</p>
+        {% endif %}
+    </div>
 
+    <!-- ========== ADD WORKOUT ========== -->
+    <div class="add-workout-box">
+        <h2>Add Workout</h2>
+        <form method="POST" action="/add_workout">
+            <input type="text"   name="exercise" placeholder="Exercise" required>
+            <input type="number" name="weight"   placeholder="Weight (kg)" step="0.5" required>
+            <input type="number" name="reps"     placeholder="Reps" required>
+            <input type="number" name="sets"     placeholder="Sets" required>
+            <input type="date"   name="date"     value="{{ now }}" required
+                   style="padding:15px;border:none;border-radius:14px;background:#0f0f0f;color:white;">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <!-- ========== PR TABLE ========== -->
+    <div class="pr-section">
+        <h2>🏆 PERSONAL RECORDS</h2>
+        {% if pr_map %}
+        <table class="pr-table">
+            <thead>
+                <tr>
+                    <th>EXERCISE</th>
+                    <th>BEST WEIGHT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exercise, best in pr_map.items() | sort %}
+                <tr>
+                    <td>{{ exercise }}</td>
+                    <td class="pr-weight">{{ best }} <span style="font-size:14px;color:#9ca3af;">kg</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-pr">まだ記録がありません。ワークアウトを追加してください。</p>
+        {% endif %}
+    </div>
+
+    <!-- ========== MENU SETTINGS ========== -->
+    <div class="menu-section" id="menu-section">
+        <h2>⚙️ WEEKLY MENU SETTINGS</h2>
+
+        <!-- Day tabs -->
+        <div class="day-tabs">
+            {% for i in range(7) %}
+            <div
+                class="day-tab {% if i == today_day %}active{% endif %}"
+                onclick="switchDay({{ i }})"
+                id="tab-{{ i }}"
+            >
+                {{ day_names[i] }}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Day panels -->
+        {% for i in range(7) %}
+        <div class="day-panel {% if i == today_day %}active{% endif %}" id="panel-{{ i }}">
+
+            <div class="menu-list">
+                {% for item in menus_by_day[i] %}
+                <div class="menu-row">
+                    <span class="menu-ex">{{ item.exercise }}</span>
+                    <span class="menu-meta">{{ item.target_sets }} sets × {{ item.target_reps }} reps</span>
+                    <a href="/delete_menu/{{ item.id }}">Delete</a>
+                </div>
+                {% else %}
+                <p style="color:#6b7280;font-style:italic;">メニューなし</p>
+                {% endfor %}
+            </div>
+
+            <form method="POST" action="/add_menu" class="add-menu-form">
+                <input type="hidden" name="day" value="{{ i }}">
+                <input type="text"   name="exercise"    placeholder="種目名" required>
+                <input type="number" name="target_sets" placeholder="Sets"  required min="1">
+                <input type="number" name="target_reps" placeholder="Reps"  required min="1">
+                <button type="submit">+ Add</button>
+            </form>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- ========== WORKOUT LOG ========== -->
+    <div style="background:#181818;border:1px solid #2c2c2c;border-radius:30px;padding:35px;">
+        <h2 style="color:#f97316;letter-spacing:3px;margin-bottom:24px;">📝 WORKOUT LOG</h2>
+        <div class="workout-grid">
+            {% for workout in workouts %}
+            <div class="workout-card">
+                <h3>{{ workout.exercise }}</h3>
+                <div class="workout-info">
+                    <div>
+                        <span>Weight</span>
+                        <h4>{{ workout.weight }}<small style="font-size:14px;color:#9ca3af;">kg</small></h4>
+                    </div>
+                    <div>
+                        <span>Reps</span>
+                        <h4>{{ workout.reps }}</h4>
+                    </div>
+                    <div>
+                        <span>Sets</span>
+                        <h4>{{ workout.sets }}</h4>
+                    </div>
+                </div>
+                {% if workout.date %}
+                <div style="color:#6b7280;font-size:12px;margin-top:12px;">{{ workout.date }}</div>
+                {% endif %}
+                {% if workout.exercise in pr_map and workout.weight == pr_map[workout.exercise] %}
+                <div style="margin-top:10px;display:inline-block;background:#7c2d12;color:#fb923c;padding:3px 12px;border-radius:20px;font-size:12px;">🏆 PR</div>
+                {% endif %}
+                <a href="/delete_workout/{{ workout.id }}" class="delete-btn">Delete</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 
 </div>
+
+<script>
+function switchDay(i) {
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + i).classList.add('active');
+    document.getElementById('panel-' + i).classList.add('active');
+}
+</script>
 
 </body>
 </html>

@@ -1,6 +1,13 @@
 services:
   - type: web
-    name: personal-homepage
+    name: kaito-homepage
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: APP_USERNAME
+        sync: false
+      - key: APP_PASSWORD
+        sync: false

@@ -1,26 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Money</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
-
+    <title>Money System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<body class="money-body">
 
-<body class="dashboard-body">
+<div class="money-sidebar">
+    <h2>MONEY</h2>
+    <a href="/dashboard">🏠 Dashboard</a>
+    <a href="/training">💪 Training</a>
+    <a href="/money">💰 Money</a>
+    <a href="/schedule">📅 Schedule</a>
+    <a href="/logout" class="money-logout">Logout</a>
+</div>
 
-<div class="main-content">
+<div class="money-main">
 
-    <h1>
-        Money System
-    </h1>
+    <div class="money-hero">
+        <p>EXPENSE TRACKER</p>
+        <h1>Money Dashboard</h1>
+        <p>合計支出: <span class="total-amount">¥{{ "{:,}".format(total) }}</span></p>
+    </div>
+
+    <div class="add-expense-box">
+        <h2>Add Expense</h2>
+        <form method="POST" action="/add_expense">
+            <select name="category" required>
+                <option value="" disabled selected>Category</option>
+                <option>食費</option>
+                <option>交通費</option>
+                <option>娯楽</option>
+                <option>サプリ</option>
+                <option>ジム</option>
+                <option>その他</option>
+            </select>
+            <input type="text" name="description" placeholder="Description" required>
+            <input type="number" name="amount" placeholder="Amount (¥)" required>
+            <input type="date" name="date" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="expense-grid">
+        {% for expense in expenses %}
+        <div class="expense-card">
+            <span class="category-badge">{{ expense.category }}</span>
+            <h3>{{ expense.description }}</h3>
+            <div class="amount">¥{{ "{:,}".format(expense.amount) }}</div>
+            <div class="date">{{ expense.date }}</div>
+            <a href="/delete_expense/{{ expense.id }}" class="delete-btn" style="margin-top:16px;">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
 
 </div>
 
