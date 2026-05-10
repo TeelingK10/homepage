@@ -105,8 +105,30 @@ def dashboard():
 @login_required
 def training():
 
+    workouts = [
+        {
+            'exercise': 'Bench Press',
+            'weight': '80kg',
+            'reps': '5',
+            'sets': '3'
+        },
+        {
+            'exercise': 'Squat',
+            'weight': '120kg',
+            'reps': '5',
+            'sets': '5'
+        },
+        {
+            'exercise': 'Deadlift',
+            'weight': '140kg',
+            'reps': '3',
+            'sets': '3'
+        }
+    ]
+
     return render_template(
-        'training.html'
+        'training.html',
+        workouts=workouts
     )
 
 # 支出管理

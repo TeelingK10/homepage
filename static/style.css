@@ -160,3 +160,72 @@ body{
 
     color:inherit;
 }
+
+
+
+/* ========================================
+
+    padding:12px 20px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+}
+
+.workout-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(280px,1fr));
+
+    gap:20px;
+}
+
+.workout-card{
+
+    background:#0f0f0f;
+
+    border-radius:22px;
+
+    padding:25px;
+
+    border:1px solid #2c2c2c;
+
+    transition:0.3s;
+}
+
+.workout-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#f97316;
+}
+
+.workout-card h3{
+
+    margin-bottom:20px;
+
+    color:#f97316;
+}
+
+.workout-info{
+
+    display:flex;
+
+    justify-content:space-between;
+}
+
+.workout-info span{
+
+    color:#9ca3af;
+
+    font-size:14px;
+}
+
+.workout-info h4{
+
+    margin-top:6px;
+
+    font-size:24px;
+}

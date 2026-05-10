@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+                4 Days
+            </h3>
+            <p>
+                Weekly Training
+            </p>
+        </div>
+
+    </div>
+
+    <div class="workout-section">
+
+        <div class="section-header">
+
+            <h2>
+                Workout History
+            </h2>
+
+            <button>
+                + Add Workout
+            </button>
+
+        </div>
+
+        <div class="workout-grid">
+
+            {% for workout in workouts %}
+
+            <div class="workout-card">
+
+                <h3>
+                    {{ workout.exercise }}
+                </h3>
+
+                <div class="workout-info">
+
+                    <div>
+                        <span>
+                            Weight
+                        </span>
+                        <h4>
+                            {{ workout.weight }}
+                        </h4>
+                    </div>
+
+                    <div>
+                        <span>
+                            Reps
+                        </span>
+                        <h4>
+                            {{ workout.reps }}
+                        </h4>
+                    </div>
+
+                    <div>
+                        <span>
+                            Sets
+                        </span>
+                        <h4>
+                            {{ workout.sets }}
+                        </h4>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
