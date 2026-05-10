@@ -1,5 +1,7 @@
 /* static/style.css */
-
+body{
+    background:red !important;
+}
 * {
     margin: 0;
     padding: 0;
