@@ -15,29 +15,29 @@ body{
 .dark-bg{
     min-height:100vh;
     background:
-        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+        linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),
         url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1974&auto=format&fit=crop');
     background-size:cover;
     background-position:center;
-    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
 .login-box{
-    width:420px;
+    width:100%;
+    max-width:420px;
     background:rgba(255,255,255,0.15);
     backdrop-filter:blur(15px);
-    padding:50px;
+    padding:50px 40px;
     border-radius:30px;
     color:white;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
     box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
 
 .main-logo{
-    font-size:60px;
+    font-size:clamp(40px,10vw,60px);
     text-align:center;
     margin-bottom:30px;
     letter-spacing:8px;
@@ -57,6 +57,8 @@ body{
     border-radius:15px;
     padding:15px;
     background:rgba(255,255,255,0.85);
+    font-size:16px; /* prevents iOS zoom */
+    width:100%;
 }
 
 .btn-primary{
@@ -66,12 +68,56 @@ body{
     padding:14px;
     font-size:18px;
     transition:0.3s;
+    width:100%;
+    cursor:pointer;
+    color:white;
 }
 
 .btn-primary:hover{
     background:#8a5d39;
     transform:translateY(-2px);
 }
+
+/* ========================================
+   SHARED LAYOUT (sidebar + main)
+======================================== */
+
+/* --- Hamburger button (mobile only) --- */
+.hamburger{
+    display:none;
+    position:fixed;
+    top:16px;
+    left:16px;
+    z-index:300;
+    width:46px;
+    height:46px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.hamburger span{
+    display:block;
+    width:22px;
+    height:2px;
+    border-radius:2px;
+    transition:0.3s;
+}
+
+/* overlay */
+.sidebar-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:200;
+}
+
+.sidebar-overlay.open{ display:block; }
 
 /* ========================================
    DASHBOARD
@@ -93,11 +139,16 @@ body{
     gap:18px;
     position:fixed;
     height:100vh;
+    overflow-y:auto;
+    z-index:250;
+    transition:transform 0.3s;
 }
 
 .sidebar-logo{
-    margin-bottom:40px;
+    margin-bottom:20px;
     letter-spacing:5px;
+    font-size:22px;
+    font-weight:bold;
 }
 
 .sidebar a{
@@ -106,11 +157,10 @@ body{
     padding:14px 18px;
     border-radius:14px;
     transition:0.3s;
+    font-size:15px;
 }
 
-.sidebar a:hover{
-    background:rgba(255,255,255,0.1);
-}
+.sidebar a:hover{ background:rgba(255,255,255,0.1); }
 
 .logout-btn{
     margin-top:auto;
@@ -120,7 +170,7 @@ body{
 
 .main-content{
     margin-left:260px;
-    width:100%;
+    width:calc(100% - 260px);
     padding:50px;
 }
 
@@ -131,48 +181,41 @@ body{
     background-size:cover;
     background-position:center;
     border-radius:35px;
-    padding:70px;
+    padding:clamp(30px,6vw,70px);
     color:white;
     margin-bottom:40px;
 }
 
 .welcome-card h1{
-    font-size:56px;
+    font-size:clamp(32px,7vw,56px);
     margin-bottom:15px;
 }
 
 .welcome-subtitle{
     letter-spacing:4px;
     color:#f6d7b0;
+    font-size:13px;
 }
 
 .dashboard-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
 }
 
 .dashboard-card{
     background:white;
-    border-radius:30px;
-    padding:35px;
-    min-height:220px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    border-radius:24px;
+    padding:30px;
+    min-height:180px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
     transition:0.3s;
 }
 
-.dashboard-card:hover{
-    transform:translateY(-8px);
-}
+.dashboard-card:hover{ transform:translateY(-6px); }
 
-.dashboard-link{
-    text-decoration:none;
-    color:inherit;
-}
-
-.dashboard-link:hover{
-    color:inherit;
-}
+.dashboard-link{ text-decoration:none; color:inherit; }
+.dashboard-link:hover{ color:inherit; }
 
 /* ========================================
    GYM / TRAINING SYSTEM
@@ -183,7 +226,6 @@ body{
     min-height:100vh;
     background:#0f0f0f;
     color:white;
-    font-family:'Segoe UI',sans-serif;
 }
 
 .gym-sidebar{
@@ -196,10 +238,13 @@ body{
     border-right:1px solid #2c2c2c;
     position:fixed;
     height:100vh;
+    overflow-y:auto;
+    z-index:250;
+    transition:transform 0.3s;
 }
 
 .gym-sidebar h2{
-    margin-bottom:30px;
+    margin-bottom:20px;
     color:#f97316;
     letter-spacing:3px;
 }
@@ -212,9 +257,7 @@ body{
     transition:0.3s;
 }
 
-.gym-sidebar a:hover{
-    background:#f97316;
-}
+.gym-sidebar a:hover{ background:#f97316; }
 
 .gym-logout{
     margin-top:auto;
@@ -226,6 +269,7 @@ body{
     flex:1;
     margin-left:260px;
     padding:40px;
+    width:calc(100% - 260px);
 }
 
 .gym-hero{
@@ -234,149 +278,79 @@ body{
         url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1974&auto=format&fit=crop');
     background-size:cover;
     background-position:center;
-    padding:70px;
-    border-radius:35px;
-    margin-bottom:35px;
+    padding:clamp(30px,6vw,70px);
+    border-radius:28px;
+    margin-bottom:28px;
 }
 
-.gym-hero p{
-    color:#f97316;
-    letter-spacing:4px;
-}
-
-.gym-hero h1{
-    font-size:64px;
-    margin:10px 0;
-}
-
-.gym-hero span{
-    color:#d1d5db;
-}
-
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
-    margin-bottom:35px;
-}
-
-.stat-card{
-    background:#181818;
-    padding:30px;
-    border-radius:25px;
-    border:1px solid #2c2c2c;
-}
-
-.stat-card h3{
-    font-size:42px;
-    color:#f97316;
-}
-
-.workout-section{
-    background:#181818;
-    padding:30px;
-    border-radius:30px;
-    border:1px solid #2c2c2c;
-}
-
-.section-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.section-header button{
-    background:#f97316;
-    border:none;
-    color:white;
-    padding:12px 20px;
-    border-radius:14px;
-    cursor:pointer;
-}
+.gym-hero p{ color:#f97316; letter-spacing:4px; }
+.gym-hero h1{ font-size:clamp(36px,8vw,64px); margin:10px 0; }
+.gym-hero span{ color:#d1d5db; }
 
 .workout-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
 }
 
 .workout-card{
     background:#0f0f0f;
-    border-radius:22px;
-    padding:25px;
+    border-radius:20px;
+    padding:22px;
     border:1px solid #2c2c2c;
     transition:0.3s;
 }
 
-.workout-card:hover{
-    transform:translateY(-5px);
-    border-color:#f97316;
-}
+.workout-card:hover{ transform:translateY(-4px); border-color:#f97316; }
+.workout-card h3{ margin-bottom:16px; color:#f97316; }
 
-.workout-card h3{
-    margin-bottom:20px;
-    color:#f97316;
-}
-
-.workout-info{
-    display:flex;
-    justify-content:space-between;
-}
-
-.workout-info span{
-    color:#9ca3af;
-    font-size:14px;
-}
-
-.workout-info h4{
-    margin-top:6px;
-    font-size:24px;
-}
+.workout-info{ display:flex; justify-content:space-between; }
+.workout-info span{ color:#9ca3af; font-size:13px; }
+.workout-info h4{ margin-top:5px; font-size:22px; }
 
 .add-workout-box{
     background:#181818;
-    padding:30px;
-    border-radius:30px;
-    margin-bottom:35px;
+    padding:26px;
+    border-radius:24px;
+    margin-bottom:28px;
 }
 
-.add-workout-box h2{
-    margin-bottom:20px;
-    color:#f97316;
-}
+.add-workout-box h2{ margin-bottom:18px; color:#f97316; }
 
 .add-workout-box form{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
 }
 
 .add-workout-box input{
-    padding:15px;
-    border:none;
-    border-radius:14px;
+    padding:14px;
+    border:1px solid #2c2c2c;
+    border-radius:12px;
     background:#0f0f0f;
     color:white;
+    font-size:16px;
 }
 
 .add-workout-box button{
     background:#f97316;
     border:none;
-    border-radius:14px;
+    border-radius:12px;
     color:white;
-    font-size:18px;
+    font-size:17px;
     cursor:pointer;
+    padding:14px;
 }
 
 .delete-btn{
     display:inline-block;
-    margin-top:20px;
+    margin-top:16px;
     text-decoration:none;
     background:#dc2626;
     color:white;
-    padding:10px 16px;
-    border-radius:12px;
+    padding:9px 15px;
+    border-radius:11px;
+    font-size:13px;
 }
 
 /* ========================================
@@ -388,7 +362,6 @@ body{
     min-height:100vh;
     background:#0a0f1e;
     color:white;
-    font-family:'Segoe UI',sans-serif;
 }
 
 .money-sidebar{
@@ -401,13 +374,12 @@ body{
     border-right:1px solid #1e2d50;
     position:fixed;
     height:100vh;
+    overflow-y:auto;
+    z-index:250;
+    transition:transform 0.3s;
 }
 
-.money-sidebar h2{
-    margin-bottom:30px;
-    color:#38bdf8;
-    letter-spacing:3px;
-}
+.money-sidebar h2{ margin-bottom:20px; color:#38bdf8; letter-spacing:3px; }
 
 .money-sidebar a{
     text-decoration:none;
@@ -417,132 +389,95 @@ body{
     transition:0.3s;
 }
 
-.money-sidebar a:hover{
-    background:#38bdf8;
-    color:#0a0f1e;
-}
+.money-sidebar a:hover{ background:#38bdf8; color:#0a0f1e; }
 
-.money-logout{
-    margin-top:auto;
-    background:#dc2626;
-    text-align:center;
-}
+.money-logout{ margin-top:auto; background:#dc2626; text-align:center; }
 
 .money-main{
     flex:1;
     margin-left:260px;
     padding:40px;
+    width:calc(100% - 260px);
 }
 
 .money-hero{
     background:linear-gradient(135deg,#0d1427 0%,#1e3a5f 100%);
     border:1px solid #1e2d50;
-    padding:60px;
-    border-radius:35px;
-    margin-bottom:35px;
+    padding:clamp(28px,5vw,60px);
+    border-radius:28px;
+    margin-bottom:28px;
 }
 
-.money-hero p{
-    color:#38bdf8;
-    letter-spacing:4px;
-    margin-bottom:10px;
-}
-
-.money-hero h1{
-    font-size:56px;
-    margin-bottom:10px;
-}
-
-.money-hero .total-amount{
-    font-size:42px;
-    color:#38bdf8;
-    font-weight:bold;
-}
+.money-hero p{ color:#38bdf8; letter-spacing:4px; margin-bottom:10px; }
+.money-hero h1{ font-size:clamp(32px,7vw,56px); margin-bottom:10px; }
+.money-hero .total-amount{ font-size:clamp(28px,6vw,42px); color:#38bdf8; font-weight:bold; }
 
 .add-expense-box{
     background:#0d1427;
-    padding:30px;
-    border-radius:30px;
-    margin-bottom:35px;
+    padding:26px;
+    border-radius:24px;
+    margin-bottom:28px;
     border:1px solid #1e2d50;
 }
 
-.add-expense-box h2{
-    margin-bottom:20px;
-    color:#38bdf8;
-}
+.add-expense-box h2{ margin-bottom:18px; color:#38bdf8; }
 
 .add-expense-box form{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
 }
 
 .add-expense-box input,
 .add-expense-box select{
-    padding:15px;
+    padding:14px;
     border:1px solid #1e2d50;
-    border-radius:14px;
+    border-radius:12px;
     background:#0a0f1e;
     color:white;
+    font-size:16px;
 }
 
 .add-expense-box button{
     background:#38bdf8;
     border:none;
-    border-radius:14px;
+    border-radius:12px;
     color:#0a0f1e;
-    font-size:18px;
+    font-size:17px;
     font-weight:bold;
     cursor:pointer;
-    padding:15px;
+    padding:14px;
 }
 
 .expense-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
 }
 
 .expense-card{
     background:#0d1427;
-    border-radius:22px;
-    padding:25px;
+    border-radius:20px;
+    padding:22px;
     border:1px solid #1e2d50;
     transition:0.3s;
 }
 
-.expense-card:hover{
-    transform:translateY(-5px);
-    border-color:#38bdf8;
-}
+.expense-card:hover{ transform:translateY(-4px); border-color:#38bdf8; }
 
 .expense-card .category-badge{
     display:inline-block;
     background:#1e3a5f;
     color:#38bdf8;
-    padding:5px 14px;
+    padding:4px 12px;
     border-radius:20px;
-    font-size:13px;
-    margin-bottom:12px;
+    font-size:12px;
+    margin-bottom:10px;
 }
 
-.expense-card h3{
-    font-size:22px;
-    margin-bottom:8px;
-}
-
-.expense-card .amount{
-    font-size:32px;
-    font-weight:bold;
-    color:#38bdf8;
-}
-
-.expense-card .date{
-    color:#64748b;
-    font-size:13px;
-    margin-top:6px;
-}
+.expense-card h3{ font-size:20px; margin-bottom:6px; }
+.expense-card .amount{ font-size:28px; font-weight:bold; color:#38bdf8; }
+.expense-card .date{ color:#64748b; font-size:12px; margin-top:5px; }
 
 /* ========================================
    SCHEDULE SYSTEM
@@ -553,7 +488,6 @@ body{
     min-height:100vh;
     background:#0f1a0f;
     color:white;
-    font-family:'Segoe UI',sans-serif;
 }
 
 .schedule-sidebar{
@@ -566,13 +500,12 @@ body{
     border-right:1px solid #1e3a1e;
     position:fixed;
     height:100vh;
+    overflow-y:auto;
+    z-index:250;
+    transition:transform 0.3s;
 }
 
-.schedule-sidebar h2{
-    margin-bottom:30px;
-    color:#4ade80;
-    letter-spacing:3px;
-}
+.schedule-sidebar h2{ margin-bottom:20px; color:#4ade80; letter-spacing:3px; }
 
 .schedule-sidebar a{
     text-decoration:none;
@@ -582,115 +515,157 @@ body{
     transition:0.3s;
 }
 
-.schedule-sidebar a:hover{
-    background:#4ade80;
-    color:#0f1a0f;
-}
+.schedule-sidebar a:hover{ background:#4ade80; color:#0f1a0f; }
 
-.schedule-logout{
-    margin-top:auto;
-    background:#dc2626;
-    text-align:center;
-}
+.schedule-logout{ margin-top:auto; background:#dc2626; text-align:center; }
 
 .schedule-main{
     flex:1;
     margin-left:260px;
     padding:40px;
+    width:calc(100% - 260px);
 }
 
 .schedule-hero{
     background:linear-gradient(135deg,#111d11 0%,#1a3a1a 100%);
     border:1px solid #1e3a1e;
-    padding:60px;
-    border-radius:35px;
-    margin-bottom:35px;
+    padding:clamp(28px,5vw,60px);
+    border-radius:28px;
+    margin-bottom:28px;
 }
 
-.schedule-hero p{
-    color:#4ade80;
-    letter-spacing:4px;
-    margin-bottom:10px;
-}
-
-.schedule-hero h1{
-    font-size:56px;
-    margin-bottom:10px;
-}
+.schedule-hero p{ color:#4ade80; letter-spacing:4px; margin-bottom:10px; }
+.schedule-hero h1{ font-size:clamp(32px,7vw,56px); margin-bottom:10px; }
 
 .add-event-box{
     background:#111d11;
-    padding:30px;
-    border-radius:30px;
-    margin-bottom:35px;
+    padding:26px;
+    border-radius:24px;
+    margin-bottom:28px;
     border:1px solid #1e3a1e;
 }
 
-.add-event-box h2{
-    margin-bottom:20px;
-    color:#4ade80;
-}
+.add-event-box h2{ margin-bottom:18px; color:#4ade80; }
 
 .add-event-box form{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
 }
 
 .add-event-box input{
-    padding:15px;
+    padding:14px;
     border:1px solid #1e3a1e;
-    border-radius:14px;
+    border-radius:12px;
     background:#0f1a0f;
     color:white;
+    font-size:16px;
 }
 
 .add-event-box button{
     background:#4ade80;
     border:none;
-    border-radius:14px;
+    border-radius:12px;
     color:#0f1a0f;
-    font-size:18px;
+    font-size:17px;
     font-weight:bold;
     cursor:pointer;
-    padding:15px;
+    padding:14px;
 }
 
-.event-list{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-}
+.event-list{ display:flex; flex-direction:column; gap:14px; }
 
 .event-card{
     background:#111d11;
-    border-radius:22px;
-    padding:25px 30px;
+    border-radius:20px;
+    padding:22px 26px;
     border:1px solid #1e3a1e;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:12px;
     transition:0.3s;
 }
 
-.event-card:hover{
-    transform:translateY(-3px);
-    border-color:#4ade80;
+.event-card:hover{ transform:translateY(-3px); border-color:#4ade80; }
+
+.event-left h3{ font-size:18px; margin-bottom:5px; }
+.event-left .event-meta{ color:#4ade80; font-size:13px; letter-spacing:1px; }
+.event-left .event-note{ color:#6b7280; font-size:12px; margin-top:3px; }
+
+/* ========================================
+   MOBILE RESPONSIVE  ≤ 768px
+======================================== */
+
+@media(max-width:768px){
+
+    /* show hamburger */
+    .hamburger{ display:flex; }
+
+    /* --- sidebar slide-in --- */
+    .sidebar,
+    .gym-sidebar,
+    .money-sidebar,
+    .schedule-sidebar{
+        transform:translateX(-100%);
+        width:240px;
+    }
+
+    .sidebar.open,
+    .gym-sidebar.open,
+    .money-sidebar.open,
+    .schedule-sidebar.open{
+        transform:translateX(0);
+    }
+
+    /* hamburger colors per theme */
+    .dashboard-body   .hamburger{ background:#3e2c23; }
+    .gym-body         .hamburger{ background:#181818; }
+    .money-body       .hamburger{ background:#0d1427; }
+    .schedule-body    .hamburger{ background:#111d11; }
+
+    .dashboard-body   .hamburger span{ background:#f6d7b0; }
+    .gym-body         .hamburger span{ background:#f97316; }
+    .money-body       .hamburger span{ background:#38bdf8; }
+    .schedule-body    .hamburger span{ background:#4ade80; }
+
+    /* main content full width + top padding for hamburger */
+    .main-content,
+    .gym-main,
+    .money-main,
+    .schedule-main{
+        margin-left:0;
+        width:100%;
+        padding:72px 18px 24px;
+    }
+
+    /* cards / grids */
+    .dashboard-grid,
+    .workout-grid,
+    .expense-grid{
+        grid-template-columns:1fr;
+    }
+
+    /* forms stack vertically */
+    .add-workout-box form,
+    .add-expense-box form,
+    .add-event-box form{
+        grid-template-columns:1fr;
+    }
+
+    /* hero text */
+    .welcome-card{ padding:28px 22px; border-radius:22px; }
+    .gym-hero{ padding:28px 22px; border-radius:22px; }
+    .money-hero{ padding:28px 22px; border-radius:22px; }
+    .schedule-hero{ padding:28px 22px; border-radius:22px; }
+
+    /* event card stacks on very small */
+    .event-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
 }
 
-.event-left h3{
-    font-size:20px;
-    margin-bottom:6px;
-}
-
-.event-left .event-meta{
-    color:#4ade80;
-    font-size:14px;
-    letter-spacing:1px;
-}
-
-.event-left .event-note{
-    color:#6b7280;
-    font-size:13px;
-    margin-top:4px;
+@media(max-width:480px){
+    .login-box{ padding:36px 24px; border-radius:22px; }
 }

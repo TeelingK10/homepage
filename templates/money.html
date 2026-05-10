@@ -2,12 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Money System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="money-body">
 
-<div class="money-sidebar">
+<div class="sidebar-overlay" id="overlay"></div>
+
+<button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+</button>
+
+<div class="money-sidebar" id="sidebar">
     <h2>MONEY</h2>
     <a href="/dashboard">🏠 Dashboard</a>
     <a href="/training">💪 Training</a>
@@ -36,9 +43,9 @@
                 <option>ジム</option>
                 <option>その他</option>
             </select>
-            <input type="text" name="description" placeholder="Description" required>
-            <input type="number" name="amount" placeholder="Amount (¥)" required>
-            <input type="date" name="date" required>
+            <input type="text"   name="description" placeholder="Description" required>
+            <input type="number" name="amount"       placeholder="Amount (¥)"  required>
+            <input type="date"   name="date"         required>
             <button type="submit">Add</button>
         </form>
     </div>
@@ -50,12 +57,21 @@
             <h3>{{ expense.description }}</h3>
             <div class="amount">¥{{ "{:,}".format(expense.amount) }}</div>
             <div class="date">{{ expense.date }}</div>
-            <a href="/delete_expense/{{ expense.id }}" class="delete-btn" style="margin-top:16px;">Delete</a>
+            <a href="/delete_expense/{{ expense.id }}" class="delete-btn" style="margin-top:14px;">Delete</a>
         </div>
         {% endfor %}
     </div>
 
 </div>
 
+<script>
+(function(){
+    var btn=document.getElementById('hamburger');
+    var sb=document.getElementById('sidebar');
+    var ov=document.getElementById('overlay');
+    btn.addEventListener('click',function(){ sb.classList.toggle('open'); ov.classList.toggle('open'); });
+    ov.addEventListener('click',function(){ sb.classList.remove('open'); ov.classList.remove('open'); });
+})();
+</script>
 </body>
 </html>

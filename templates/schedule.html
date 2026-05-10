@@ -2,12 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="schedule-body">
 
-<div class="schedule-sidebar">
+<div class="sidebar-overlay" id="overlay"></div>
+
+<button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+</button>
+
+<div class="schedule-sidebar" id="sidebar">
     <h2>SCHEDULE</h2>
     <a href="/dashboard">🏠 Dashboard</a>
     <a href="/training">💪 Training</a>
@@ -28,9 +35,9 @@
         <h2>Add Event</h2>
         <form method="POST" action="/add_event">
             <input type="text" name="title" placeholder="Event Title" required>
-            <input type="date" name="date" required>
+            <input type="date" name="date"  required>
             <input type="time" name="time">
-            <input type="text" name="note" placeholder="Note (optional)">
+            <input type="text" name="note"  placeholder="Note (optional)">
             <button type="submit">Add</button>
         </form>
     </div>
@@ -40,7 +47,9 @@
         <div class="event-card">
             <div class="event-left">
                 <h3>{{ event.title }}</h3>
-                <div class="event-meta">📅 {{ event.date }}{% if event.time %} &nbsp; 🕐 {{ event.time }}{% endif %}</div>
+                <div class="event-meta">
+                    📅 {{ event.date }}{% if event.time %} &nbsp;🕐 {{ event.time }}{% endif %}
+                </div>
                 {% if event.note %}
                 <div class="event-note">{{ event.note }}</div>
                 {% endif %}
@@ -52,5 +61,14 @@
 
 </div>
 
+<script>
+(function(){
+    var btn=document.getElementById('hamburger');
+    var sb=document.getElementById('sidebar');
+    var ov=document.getElementById('overlay');
+    btn.addEventListener('click',function(){ sb.classList.toggle('open'); ov.classList.toggle('open'); });
+    ov.addEventListener('click',function(){ sb.classList.remove('open'); ov.classList.remove('open'); });
+})();
+</script>
 </body>
 </html>
