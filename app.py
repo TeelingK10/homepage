@@ -18,6 +18,8 @@ from flask_login import (
     current_user
 )
 
+from flask_sqlalchemy import SQLAlchemy
+
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash
@@ -28,6 +30,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY'
 )
+
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    'sqlite:///training.db'
+)
+
+db = SQLAlchemy(app)
 
 USERNAME = os.environ.get(
     'APP_USERNAME'
@@ -56,7 +64,36 @@ def load_user(user_id):
 
     return User(user_id)
 
-# ログイン画面
+# =========================
+# Workout Model
+# =========================
+
+class Workout(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    exercise = db.Column(
+        db.String(100)
+    )
+
+    weight = db.Column(
+        db.String(50)
+    )
+
+    reps = db.Column(
+        db.String(50)
+    )
+
+    sets = db.Column(
+        db.String(50)
+    )
+
+# =========================
+# Login
+# =========================
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -88,7 +125,9 @@ def index():
 
     return render_template('index.html')
 
-# ダッシュボード
+# =========================
+# Dashboard
+# =========================
 
 @app.route('/dashboard')
 @login_required
@@ -99,39 +138,75 @@ def dashboard():
         user=current_user
     )
 
-# 筋トレ
+# =========================
+# Training
+# =========================
 
 @app.route('/training')
 @login_required
 def training():
 
-    workouts = [
-        {
-            'exercise': 'Bench Press',
-            'weight': '80kg',
-            'reps': '5',
-            'sets': '3'
-        },
-        {
-            'exercise': 'Squat',
-            'weight': '120kg',
-            'reps': '5',
-            'sets': '5'
-        },
-        {
-            'exercise': 'Deadlift',
-            'weight': '140kg',
-            'reps': '3',
-            'sets': '3'
-        }
-    ]
+    workouts = Workout.query.order_by(
+        Workout.id.desc()
+    ).all()
 
     return render_template(
         'training.html',
         workouts=workouts
     )
 
-# 支出管理
+# =========================
+# Add Workout
+# =========================
+
+@app.route('/add_workout', methods=['POST'])
+@login_required
+def add_workout():
+
+    exercise = request.form['exercise']
+
+    weight = request.form['weight']
+
+    reps = request.form['reps']
+
+    sets = request.form['sets']
+
+    workout = Workout(
+        exercise=exercise,
+        weight=weight,
+        reps=reps,
+        sets=sets
+    )
+
+    db.session.add(workout)
+
+    db.session.commit()
+
+    return redirect(
+        url_for('training')
+    )
+
+# =========================
+# Delete Workout
+# =========================
+
+@app.route('/delete_workout/<int:id>')
+@login_required
+def delete_workout(id):
+
+    workout = Workout.query.get(id)
+
+    db.session.delete(workout)
+
+    db.session.commit()
+
+    return redirect(
+        url_for('training')
+    )
+
+# =========================
+# Money
+# =========================
 
 @app.route('/money')
 @login_required
@@ -141,7 +216,9 @@ def money():
         'money.html'
     )
 
-# スケジュール
+# =========================
+# Schedule
+# =========================
 
 @app.route('/schedule')
 @login_required
@@ -151,7 +228,9 @@ def schedule():
         'schedule.html'
     )
 
-# ログアウト
+# =========================
+# Logout
+# =========================
 
 @app.route('/logout')
 @login_required
@@ -163,6 +242,14 @@ def logout():
         url_for('index')
     )
 
+# =========================
+# Run
+# =========================
+
 if __name__ == '__main__':
+
+    with app.app_context():
+
+        db.create_all()
 
     app.run(debug=True)

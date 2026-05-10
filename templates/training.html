@@ -34,7 +34,7 @@
     </a>
 
     <a href="/training">
-        Workout Log
+        Workout
     </a>
 
     <a href="/money">
@@ -69,115 +69,117 @@
 
     </div>
 
-    <div class="stats-grid">
+    <!-- Add Workout -->
 
-        <div class="stat-card">
+    <div class="add-workout-box">
 
-            <h3>
-                92kg
-            </h3>
+        <h2>
+            Add Workout
+        </h2>
 
-            <p>
-                Body Weight
-            </p>
+        <form
+            method="POST"
+            action="/add_workout"
+        >
 
-        </div>
+            <input
+                type="text"
+                name="exercise"
+                placeholder="Exercise"
+                required
+            >
 
-        <div class="stat-card">
+            <input
+                type="text"
+                name="weight"
+                placeholder="Weight"
+                required
+            >
 
-            <h3>
-                100kg
-            </h3>
+            <input
+                type="text"
+                name="reps"
+                placeholder="Reps"
+                required
+            >
 
-            <p>
-                Bench PR
-            </p>
+            <input
+                type="text"
+                name="sets"
+                placeholder="Sets"
+                required
+            >
 
-        </div>
+            <button>
+                Add
+            </button>
 
-        <div class="stat-card">
-
-            <h3>
-                4 Days
-            </h3>
-
-            <p>
-                Weekly Training
-            </p>
-
-        </div>
+        </form>
 
     </div>
 
-    <div class="workout-section">
+    <!-- Workout List -->
 
-        <div class="section-header">
+    <div class="workout-grid">
 
-            <h2>
-                Workout History
-            </h2>
+        {% for workout in workouts %}
 
-            <button>
-                + Add Workout
-            </button>
+        <div class="workout-card">
 
-        </div>
+            <h3>
+                {{ workout.exercise }}
+            </h3>
 
-        <div class="workout-grid">
+            <div class="workout-info">
 
-            {% for workout in workouts %}
+                <div>
 
-            <div class="workout-card">
+                    <span>
+                        Weight
+                    </span>
 
-                <h3>
-                    {{ workout.exercise }}
-                </h3>
+                    <h4>
+                        {{ workout.weight }}
+                    </h4>
 
-                <div class="workout-info">
+                </div>
 
-                    <div>
+                <div>
 
-                        <span>
-                            Weight
-                        </span>
+                    <span>
+                        Reps
+                    </span>
 
-                        <h4>
-                            {{ workout.weight }}
-                        </h4>
+                    <h4>
+                        {{ workout.reps }}
+                    </h4>
 
-                    </div>
+                </div>
 
-                    <div>
+                <div>
 
-                        <span>
-                            Reps
-                        </span>
+                    <span>
+                        Sets
+                    </span>
 
-                        <h4>
-                            {{ workout.reps }}
-                        </h4>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Sets
-                        </span>
-
-                        <h4>
-                            {{ workout.sets }}
-                        </h4>
-
-                    </div>
+                    <h4>
+                        {{ workout.sets }}
+                    </h4>
 
                 </div>
 
             </div>
 
-            {% endfor %}
+            <a
+                href="/delete_workout/{{ workout.id }}"
+                class="delete-btn"
+            >
+                Delete
+            </a>
 
         </div>
+
+        {% endfor %}
 
     </div>
 
