@@ -1,9 +1,110 @@
 <!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Training System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body class="gym-body">
+
+<div class="gym-sidebar">
+
+    <h2>
+        TRAINING
+    </h2>
+
+    <a href="/dashboard">
+        Dashboard
+    </a>
+
+    <a href="/training">
+        Workout Log
+    </a>
+
+    <a href="/money">
+        Money
+    </a>
+
+    <a href="/schedule">
+        Schedule
+    </a>
+
+    <a href="/logout" class="gym-logout">
+        Logout
+    </a>
+
+</div>
+
+<div class="gym-main">
+
+    <div class="gym-hero">
+
+        <p>
+            NO EXCUSES
+        </p>
+
+        <h1>
+            Gym Dashboard
+        </h1>
+
+        <span>
+            Track Your Progress
+        </span>
+
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>
+                92kg
+            </h3>
+
+            <p>
+                Body Weight
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+                100kg
+            </h3>
+
+            <p>
+                Bench PR
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
                 4 Days
             </h3>
+
             <p>
                 Weekly Training
             </p>
+
         </div>
 
     </div>
@@ -35,30 +136,39 @@
                 <div class="workout-info">
 
                     <div>
+
                         <span>
                             Weight
                         </span>
+
                         <h4>
                             {{ workout.weight }}
                         </h4>
+
                     </div>
 
                     <div>
+
                         <span>
                             Reps
                         </span>
+
                         <h4>
                             {{ workout.reps }}
                         </h4>
+
                     </div>
 
                     <div>
+
                         <span>
                             Sets
                         </span>
+
                         <h4>
                             {{ workout.sets }}
                         </h4>
+
                     </div>
 
                 </div>
