@@ -2,7 +2,7 @@
 body{
     background:red !important;
 }
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -276,4 +276,4 @@ body {
     .welcome-card h1 {
         font-size: 38px;
     }
-}
+} */
