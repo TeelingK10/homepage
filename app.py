@@ -33,7 +33,7 @@ app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY'
 )
 
-# Render環境変数から取得
+# Render環境変数
 
 USERNAME = os.environ.get(
     'APP_USERNAME'
