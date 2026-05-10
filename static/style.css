@@ -164,6 +164,180 @@ body{
 
 
 /* ========================================
+   GYM SYSTEM
+======================================== */
+
+.gym-body{
+
+    margin:0;
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#0f0f0f;
+
+    color:white;
+
+    font-family:'Segoe UI',sans-serif;
+}
+
+.gym-sidebar{
+
+    width:260px;
+
+    background:#181818;
+
+    padding:40px 25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+    border-right:1px solid #2c2c2c;
+}
+
+.gym-sidebar h2{
+
+    margin-bottom:30px;
+
+    color:#f97316;
+
+    letter-spacing:3px;
+}
+
+.gym-sidebar a{
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    transition:0.3s;
+}
+
+.gym-sidebar a:hover{
+
+    background:#f97316;
+}
+
+.gym-logout{
+
+    margin-top:auto;
+
+    background:#dc2626;
+}
+
+.gym-main{
+
+    flex:1;
+
+    padding:40px;
+}
+
+.gym-hero{
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.5),
+            rgba(0,0,0,0.5)
+        ),
+        url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1974&auto=format&fit=crop');
+
+    background-size:cover;
+
+    background-position:center;
+
+    padding:70px;
+
+    border-radius:35px;
+
+    margin-bottom:35px;
+}
+
+.gym-hero p{
+
+    color:#f97316;
+
+    letter-spacing:4px;
+}
+
+.gym-hero h1{
+
+    font-size:64px;
+
+    margin:10px 0;
+}
+
+.gym-hero span{
+
+    color:#d1d5db;
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+    margin-bottom:35px;
+}
+
+.stat-card{
+
+    background:#181818;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    border:1px solid #2c2c2c;
+}
+
+.stat-card h3{
+
+    font-size:42px;
+
+    color:#f97316;
+}
+
+.workout-section{
+
+    background:#181818;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    border:1px solid #2c2c2c;
+}
+
+.section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.section-header button{
+
+    background:#f97316;
+
+    border:none;
+
+    color:white;
 
     padding:12px 20px;
 
