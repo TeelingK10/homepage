@@ -23,17 +23,11 @@ from werkzeug.security import (
     check_password_hash
 )
 
-# Flask作成
-
 app = Flask(__name__)
-
-# SECRET_KEY
 
 app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY'
 )
-
-# Render環境変数
 
 USERNAME = os.environ.get(
     'APP_USERNAME'
@@ -43,21 +37,13 @@ PASSWORD = os.environ.get(
     'APP_PASSWORD'
 )
 
-# 固定ログイン情報
-
 USER_DATA = {
     USERNAME: generate_password_hash(PASSWORD)
 }
 
-# LoginManager
-
 login_manager = LoginManager()
 
 login_manager.init_app(app)
-
-login_manager.login_view = 'login'
-
-# Userクラス
 
 class User(UserMixin):
 
@@ -65,24 +51,15 @@ class User(UserMixin):
 
         self.id = username
 
-# ユーザー読み込み
-
 @login_manager.user_loader
 def load_user(user_id):
 
     return User(user_id)
 
-# トップページ
+# ログイン画面
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-
-    return render_template('index.html')
-
-# ログイン
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
 
     if request.method == 'POST':
 
@@ -90,13 +67,9 @@ def login():
 
         password = request.form['password']
 
-        # ユーザー存在確認
-
         if username in USER_DATA:
 
             hashed_password = USER_DATA[username]
-
-            # パスワード確認
 
             if check_password_hash(
                 hashed_password,
@@ -113,7 +86,7 @@ def login():
 
         flash('ログイン失敗')
 
-    return render_template('login.html')
+    return render_template('index.html')
 
 # ダッシュボード
 
@@ -124,6 +97,36 @@ def dashboard():
     return render_template(
         'dashboard.html',
         user=current_user
+    )
+
+# 筋トレ
+
+@app.route('/training')
+@login_required
+def training():
+
+    return render_template(
+        'training.html'
+    )
+
+# 支出管理
+
+@app.route('/money')
+@login_required
+def money():
+
+    return render_template(
+        'money.html'
+    )
+
+# スケジュール
+
+@app.route('/schedule')
+@login_required
+def schedule():
+
+    return render_template(
+        'schedule.html'
     )
 
 # ログアウト
@@ -137,8 +140,6 @@ def logout():
     return redirect(
         url_for('index')
     )
-
-# 起動
 
 if __name__ == '__main__':
 

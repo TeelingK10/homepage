@@ -8,8 +8,6 @@ body{
     font-family:'Segoe UI',sans-serif;
 }
 
-/* ログイン背景 */
-
 .dark-bg{
 
     min-height:100vh;
@@ -27,8 +25,6 @@ body{
 
     position:relative;
 }
-
-/* ガラス風ログイン */
 
 .login-box{
 
@@ -50,54 +46,117 @@ body{
     left:50%;
 
     transform:translate(-50%,-50%);
-
-    box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
 
-.login-box h2{
+.main-logo{
+
+    font-size:60px;
 
     text-align:center;
 
     margin-bottom:30px;
 
-    font-size:42px;
-
-    letter-spacing:3px;
+    letter-spacing:8px;
 }
 
-/* 入力欄 */
+.sub-title{
 
-.form-control{
+    text-align:center;
 
-    border:none;
+    letter-spacing:4px;
 
-    border-radius:15px;
+    margin-bottom:10px;
 
-    padding:15px;
-
-    background:rgba(255,255,255,0.8);
+    color:#f6d7b0;
 }
 
-/* ボタン */
+.dashboard-body{
 
-.btn-primary{
+    display:flex;
 
-    background:#b07d52;
+    background:#f5efe6;
 
-    border:none;
+    min-height:100vh;
+}
 
-    border-radius:15px;
+.sidebar{
+
+    width:260px;
+
+    background:#3e2c23;
+
+    color:white;
+
+    padding:40px 25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    position:fixed;
+
+    height:100vh;
+}
+
+.sidebar a{
+
+    text-decoration:none;
+
+    color:white;
 
     padding:14px;
 
-    font-size:18px;
-
-    transition:0.3s;
+    border-radius:14px;
 }
 
-.btn-primary:hover{
+.main-content{
 
-    background:#8a5d39;
+    margin-left:260px;
 
-    transform:translateY(-2px);
+    width:100%;
+
+    padding:50px;
+}
+
+.welcome-card{
+
+    background:#b07d52;
+
+    border-radius:35px;
+
+    padding:70px;
+
+    color:white;
+
+    margin-bottom:40px;
+}
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(260px,1fr));
+
+    gap:25px;
+}
+
+.dashboard-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:35px;
+
+    min-height:220px;
+}
+
+.dashboard-link{
+
+    text-decoration:none;
+
+    color:inherit;
 }
