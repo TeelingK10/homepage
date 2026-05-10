@@ -1,3 +1,103 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    background:red !important;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* ログイン背景 */
+
+.dark-bg{
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.45),
+            rgba(0,0,0,0.45)
+        ),
+        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1974&auto=format&fit=crop');
+
+    background-size:cover;
+
+    background-position:center;
+
+    position:relative;
+}
+
+/* ガラス風ログイン */
+
+.login-box{
+
+    width:420px;
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(15px);
+
+    padding:50px;
+
+    border-radius:30px;
+
+    color:white;
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+}
+
+.login-box h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    font-size:42px;
+
+    letter-spacing:3px;
+}
+
+/* 入力欄 */
+
+.form-control{
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    background:rgba(255,255,255,0.8);
+}
+
+/* ボタン */
+
+.btn-primary{
+
+    background:#b07d52;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:14px;
+
+    font-size:18px;
+
+    transition:0.3s;
+}
+
+.btn-primary:hover{
+
+    background:#8a5d39;
+
+    transform:translateY(-2px);
 }
