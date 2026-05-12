@@ -602,6 +602,26 @@ body{
     /* show hamburger */
     .hamburger{ display:flex; }
 
+    /* hide desktop collapse button */
+    .sidebar-toggle-btn{ display:none !important; }
+
+    /* neutralize collapsed state on mobile */
+    .sidebar.collapsed,
+    .gym-sidebar.collapsed{
+        width:240px;
+        padding:40px 25px;
+    }
+    .sidebar.collapsed .sidebar-logo,
+    .sidebar.collapsed .link-text,
+    .gym-sidebar.collapsed .gym-sidebar-header h2,
+    .gym-sidebar.collapsed .sidebar-link-text,
+    .gym-sidebar.collapsed .gym-logout{ display:unset !important; }
+    .gym-sidebar.collapsed .gym-logout{ display:flex !important; }
+    .gym-sidebar.collapsed a{ justify-content:flex-start; padding:14px 18px; font-size:15px; gap:10px; }
+    .sidebar.collapsed a{ justify-content:flex-start; }
+    .main-content.sidebar-collapsed,
+    .gym-main.sidebar-collapsed{ margin-left:0; width:100%; }
+
     /* --- sidebar slide-in --- */
     .sidebar,
     .gym-sidebar,

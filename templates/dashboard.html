@@ -5,6 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    /* --- Sidebar collapse (desktop) --- */
+    .sidebar-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.08);
+        color: #f6d7b0;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: auto;
+        transition: 0.2s;
+        flex-shrink: 0;
+    }
+    .sidebar-toggle-btn:hover { background: #b07d52; border-color: #b07d52; color: white; }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .sidebar-header .sidebar-logo {
+        margin-bottom: 0;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    /* collapsed state */
+    .sidebar.collapsed {
+        width: 64px;
+        padding: 20px 12px;
+    }
+    .sidebar.collapsed .sidebar-header .sidebar-logo,
+    .sidebar.collapsed .link-text { display: none; }
+    .sidebar.collapsed .sidebar-toggle-btn { margin: 0 auto; }
+    .sidebar.collapsed a { justify-content: center; padding: 14px; font-size: 20px; gap: 0; }
+    .sidebar.collapsed .logout-btn { display: none; }
+
+    .sidebar { transition: width 0.3s, padding 0.3s; overflow: hidden; }
+    .sidebar a { display: flex; align-items: center; gap: 10px; }
+    .link-icon { font-size: 18px; flex-shrink: 0; }
+
+    .main-content { transition: margin-left 0.3s, width 0.3s; }
+    .main-content.sidebar-collapsed { margin-left: 64px; width: calc(100% - 64px); }
+
+    @media(max-width:768px){
+        .sidebar-toggle-btn { display: none; }
+        .sidebar.collapsed { width: 240px; padding: 40px 25px; }
+        .sidebar.collapsed .sidebar-header .sidebar-logo,
+        .sidebar.collapsed .link-text { display: unset; }
+        .sidebar.collapsed a { justify-content: flex-start; font-size: 15px; gap: 10px; }
+        .sidebar.collapsed .logout-btn { display: flex; }
+        .main-content.sidebar-collapsed { margin-left: 0; width: 100%; }
+    }
+    </style>
 </head>
 <body class="dashboard-body">
 
@@ -18,15 +78,18 @@
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <h2 class="sidebar-logo">KAITO</h2>
-    <a href="/dashboard">🏠 Home</a>
-    <a href="/training">💪 Training</a>
-    <a href="/money">💰 Money</a>
-    <a href="/schedule">📅 Schedule</a>
-    <a href="/logout" class="logout-btn">Logout</a>
+    <div class="sidebar-header">
+        <h2 class="sidebar-logo">KAITO</h2>
+        <button class="sidebar-toggle-btn" id="desktopToggle" title="サイドバーを閉じる">◀</button>
+    </div>
+    <a href="/dashboard"><span class="link-icon">🏠</span><span class="link-text">Home</span></a>
+    <a href="/training"><span class="link-icon">💪</span><span class="link-text">Training</span></a>
+    <a href="/money"><span class="link-icon">💰</span><span class="link-text">Money</span></a>
+    <a href="/schedule"><span class="link-icon">📅</span><span class="link-text">Schedule</span></a>
+    <a href="/logout" class="logout-btn"><span class="link-icon">🚪</span><span class="link-text">Logout</span></a>
 </div>
 
-<div class="main-content">
+<div class="main-content" id="mainContent">
 
     <div class="welcome-card">
         <p class="welcome-subtitle">PERSONAL DASHBOARD</p>
@@ -58,12 +121,44 @@
 </div>
 
 <script>
+// --- Mobile hamburger ---
 (function(){
-    var btn=document.getElementById('hamburger');
-    var sb=document.getElementById('sidebar');
-    var ov=document.getElementById('overlay');
-    btn.addEventListener('click',function(){ sb.classList.toggle('open'); ov.classList.toggle('open'); });
-    ov.addEventListener('click',function(){ sb.classList.remove('open'); ov.classList.remove('open'); });
+    var btn = document.getElementById('hamburger');
+    var sb  = document.getElementById('sidebar');
+    var ov  = document.getElementById('overlay');
+    btn.addEventListener('click', function(){ sb.classList.toggle('open'); ov.classList.toggle('open'); });
+    ov.addEventListener('click', function(){ sb.classList.remove('open'); ov.classList.remove('open'); });
+})();
+
+// --- Desktop sidebar collapse ---
+(function(){
+    var toggle  = document.getElementById('desktopToggle');
+    var sb      = document.getElementById('sidebar');
+    var main    = document.getElementById('mainContent');
+    var collapsed = localStorage.getItem('dashboardSidebarCollapsed') === '1';
+
+    function applyState(){
+        if(collapsed){
+            sb.classList.add('collapsed');
+            main.classList.add('sidebar-collapsed');
+            toggle.textContent = '▶';
+            toggle.title = 'サイドバーを開く';
+        } else {
+            sb.classList.remove('collapsed');
+            main.classList.remove('sidebar-collapsed');
+            toggle.textContent = '◀';
+            toggle.title = 'サイドバーを閉じる';
+        }
+    }
+
+    applyState();
+
+    toggle.addEventListener('click', function(e){
+        e.preventDefault();
+        collapsed = !collapsed;
+        localStorage.setItem('dashboardSidebarCollapsed', collapsed ? '1' : '0');
+        applyState();
+    });
 })();
 </script>
 </body>
