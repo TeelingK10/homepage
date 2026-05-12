@@ -233,9 +233,37 @@ def delete_menu(id):
 @app.route('/money')
 @login_required
 def money():
+    # クエリパラメータで表示月を切り替え (例: ?month=2025-04)
+    selected_month = request.args.get('month', datetime.now().strftime('%Y-%m'))
+
+    # 全支出（降順）
     expenses = Expense.query.order_by(Expense.id.desc()).all()
-    total    = sum(e.amount for e in expenses)
-    return render_template('money.html', expenses=expenses, total=total)
+
+    # 選択月のみ絞り込み
+    month_expenses = [e for e in expenses if e.date.startswith(selected_month)]
+    month_total    = sum(e.amount for e in month_expenses)
+
+    # カテゴリ別集計（円グラフ用）
+    category_totals = {}
+    for e in month_expenses:
+        category_totals[e.category] = category_totals.get(e.category, 0) + e.amount
+
+    # 月一覧（セレクタ用）
+    months = sorted({e.date[:7] for e in expenses}, reverse=True)
+    if selected_month not in months:
+        months.insert(0, selected_month)
+
+    total = sum(e.amount for e in expenses)
+
+    return render_template(
+        'money.html',
+        expenses=month_expenses,
+        total=total,
+        month_total=month_total,
+        selected_month=selected_month,
+        months=months,
+        category_totals=category_totals,
+    )
 
 
 @app.route('/add_expense', methods=['POST'])
@@ -258,7 +286,8 @@ def delete_expense(id):
     if e:
         db.session.delete(e)
         db.session.commit()
-    return redirect(url_for('money'))
+    month = request.args.get('month', datetime.now().strftime('%Y-%m'))
+    return redirect(url_for('money', month=month))
 
 
 # =========================
